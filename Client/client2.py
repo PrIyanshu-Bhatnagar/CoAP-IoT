@@ -6,7 +6,6 @@ path = "basic"
 
 def client_2_connect():
     global client
-
     host = "127.0.0.1"
     port = 5683
     client = HelperClient(server=(host, port)) #Connection to server
@@ -26,3 +25,8 @@ def client_2_post(payload):
 def client_2_put(payload):
     response = client.put(path=path, payload=payload)
     print response.pretty_print()
+
+
+def client_2_delete():
+    response = client.delete(path=path)
+    print response
