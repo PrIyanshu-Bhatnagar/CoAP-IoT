@@ -7,22 +7,30 @@ resource = None
 class BasicResource(Resource):
     def __init__(self, name="BasicResource", coap_server=None):
         super(BasicResource, self).__init__(name, coap_server, visible=True,observable=True, allow_children=True)
-        self.payload = "basic Res"
+        self.payload = "Sensor values"
 
     def render_GET(self, request):
+        print "\nGET"
+        print "Payload: ", self.payload
         return self
 
     def render_PUT(self, request):
         self.payload = request.payload
+        print "\nPUT"
+        print "Payload: ", self.payload
         return self
 
     def render_POST(self, request):
         res = BasicResource()
         res.location_query = request.uri_query
         res.payload = request.payload
+        print "\nPOST"
+        print "Payload: ", self.payload
         return res
 
     def render_DELETE(self, request):
+        print "\nDELETE"
+        print "Payload: ", self.payload
         return True
 
 class CoAPServer(CoAP):
@@ -30,7 +38,6 @@ class CoAPServer(CoAP):
         global resource
         CoAP.__init__(self, (host, port))
         resource = BasicResource()
-        resource.resource_type
         self.add_resource('basic/', resource)
 
 def get_server():
@@ -43,15 +50,10 @@ def get_server():
         server.close()
         print "Exiting..."
 
-def get_server_payload():
-    return resource.payload
 
-def get_server_type():
-    return resource.resource_type
-
-def get_server_mid():
-    pass
-    #return resource
+def main():
+    get_server()
+    print resource
 
 if __name__ == '__main__':
-    get_server()
+    main()
